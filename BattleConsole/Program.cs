@@ -19,10 +19,7 @@ namespace BattleConsole
                
                 Console.Clear();
                 //Display character cards.
-                Console.WriteLine("Player");
-                Console.WriteLine($"Health: {GetStatusBar(playerHealth)} {playerHealth}");
-                Console.WriteLine($"Stamina: {GetStatusBar(playerStamina)} {playerStamina}");
-                Console.WriteLine();
+                PrintCharacterCard(playerHealth, playerStamina);
                 Console.WriteLine("Enemy");
                 Console.WriteLine($"Health: {GetStatusBar(enemyHealth)} {enemyHealth}");
                 Console.WriteLine($"Stamina: {GetStatusBar(enemyStamina)} {enemyStamina}");
@@ -51,5 +48,10 @@ namespace BattleConsole
             return statusBar;
 
         }
-    }
+
+        public static void PrintCharacterCard(int playerHealth, int playerStamina)
+        { Console.WriteLine("Player");
+            Console.WriteLine($"Health: {GetStatusBar(playerHealth)} {playerHealth}");
+             Console.WriteLine($"Stamina: {GetStatusBar(playerStamina)} {playerStamina}"); }
+}
 }
