@@ -19,9 +19,9 @@ namespace BattleConsole
 
                 Console.Clear();
                 //Display character cards.
-                PrintCharacterCard(playerHealth, playerStamina);
+                PrintCharacterCard("Player", playerHealth, playerStamina);
                 Console.WriteLine();
-                PrintEnemyCard(enemyHealth, enemyStamina);
+                PrintCharacterCard("Slime", enemyHealth, enemyStamina) ;
 
                 var keyInfo = Console.ReadKey(true);
                 switch (keyInfo.Key)
@@ -48,14 +48,11 @@ namespace BattleConsole
 
         }
 
-        public static void PrintCharacterCard(int playerHealth, int playerStamina)
-        { Console.WriteLine("Player");
-            Console.WriteLine($"Health: {GetStatusBar(playerHealth)} {playerHealth}");
-            Console.WriteLine($"Stamina: {GetStatusBar(playerStamina)} {playerStamina}"); }
+        public static void PrintCharacterCard(string characterName, int charHealth, int charStamina)
+        { Console.WriteLine(characterName);
+            Console.WriteLine($"Health: {GetStatusBar(charHealth)} {charHealth}");
+            Console.WriteLine($"Stamina: {GetStatusBar(charStamina)} {charStamina}"); }
 
-        public static void PrintEnemyCard(int enemyHealth, int enemyStamina)
-        { Console.WriteLine("Enemy");
-                Console.WriteLine($"Health: {GetStatusBar(enemyHealth)} {enemyHealth}");
-                Console.WriteLine($"Stamina: {GetStatusBar(enemyStamina)} {enemyStamina}"); }
+      
     }
 }
