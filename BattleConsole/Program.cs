@@ -11,19 +11,18 @@ namespace BattleConsole
             int playerStamina = 100;
             int enemyHealth = 100;
             int enemyStamina = 100;
-          
+
 
             bool active = true;
             while (active)
             {
-               
+
                 Console.Clear();
                 //Display character cards.
                 PrintCharacterCard(playerHealth, playerStamina);
-                Console.WriteLine("Enemy");
-                Console.WriteLine($"Health: {GetStatusBar(enemyHealth)} {enemyHealth}");
-                Console.WriteLine($"Stamina: {GetStatusBar(enemyStamina)} {enemyStamina}");
-                
+                Console.WriteLine();
+                PrintEnemyCard(enemyHealth, enemyStamina);
+
                 var keyInfo = Console.ReadKey(true);
                 switch (keyInfo.Key)
                 {
@@ -41,7 +40,7 @@ namespace BattleConsole
 
 
         }
-        public static string GetStatusBar(int statValue) 
+        public static string GetStatusBar(int statValue)
         {
             string statusBar = new string('|', statValue / 10);
             if (statValue % 10 != 0) { statusBar = statusBar + "-"; }
@@ -52,6 +51,11 @@ namespace BattleConsole
         public static void PrintCharacterCard(int playerHealth, int playerStamina)
         { Console.WriteLine("Player");
             Console.WriteLine($"Health: {GetStatusBar(playerHealth)} {playerHealth}");
-             Console.WriteLine($"Stamina: {GetStatusBar(playerStamina)} {playerStamina}"); }
-}
+            Console.WriteLine($"Stamina: {GetStatusBar(playerStamina)} {playerStamina}"); }
+
+        public static void PrintEnemyCard(int enemyHealth, int enemyStamina)
+        { Console.WriteLine("Enemy");
+                Console.WriteLine($"Health: {GetStatusBar(enemyHealth)} {enemyHealth}");
+                Console.WriteLine($"Stamina: {GetStatusBar(enemyStamina)} {enemyStamina}"); }
+    }
 }
