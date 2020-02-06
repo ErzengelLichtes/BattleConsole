@@ -7,11 +7,10 @@ namespace BattleConsole
         static void Main(string[] args)
         {
             //Variable definitions.
-           
-            int enemyHealth = 100;
-            int enemyStamina = 100;
+          
 
             Character player = new Character("Player",100,100);
+            Character enemy = new Character("Slime", 100, 100);
 
             bool active = true;
             while (active)
@@ -21,7 +20,7 @@ namespace BattleConsole
                 //Display character cards.
                 PrintCharacterCard(player);
                 Console.WriteLine();
-                PrintCharacterCard("Slime", enemyHealth, enemyStamina);
+                PrintCharacterCard(enemy);
 
                 var keyInfo = Console.ReadKey(true);
                 switch (keyInfo.Key)
