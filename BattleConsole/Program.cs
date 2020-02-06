@@ -59,8 +59,8 @@ namespace BattleConsole
         public static void PrintCharacterCard(string characterName, int charHealth, int charStamina)
         {
             Console.WriteLine(characterName);
-            Console.WriteLine($"Health: {GetStatusBar(charHealth)} {charHealth}");
-            Console.WriteLine($"Stamina: {GetStatusBar(charStamina)} {charStamina}");
+            PrintStatLine($"Health", charHealth);
+            PrintStatLine($"Stamina", charStamina);
         }
         public static void PrintStatLine(string statName, int statValue)
         {
