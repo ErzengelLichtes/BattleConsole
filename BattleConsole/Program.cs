@@ -46,9 +46,11 @@ namespace BattleConsole
             int remainder = statValue % 10;
             if (remainder != 0)
             {
-                if (remainder <= 4) { statusBar = statusBar + "."; }
-                else if (remainder <= 7) { statusBar = statusBar + "-"; }
-                else if (remainder <= 9) { statusBar = statusBar + "/"; }
+                string toAdd = "error";
+                if (remainder <= 4) { toAdd = "."; }
+                else if (remainder <= 7) { toAdd = "-"; }
+                else if (remainder <= 9) { toAdd = "/"; }
+                statusBar = statusBar + toAdd;
             }
             return statusBar;
 
