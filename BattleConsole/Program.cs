@@ -62,7 +62,10 @@ namespace BattleConsole
             Console.WriteLine($"Health: {GetStatusBar(charHealth)} {charHealth}");
             Console.WriteLine($"Stamina: {GetStatusBar(charStamina)} {charStamina}");
         }
-
+        public static void PrintStatLine(string statName, int statValue)
+        {
+            Console.WriteLine($"{statName}: {GetStatusBar(statValue)} {statValue}");
+        }
 
     }
 }
