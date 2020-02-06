@@ -9,8 +9,8 @@ namespace BattleConsole
             //Variable definitions.
 
 
-            Character player = new Character("Player", 100, 100);
-            Character enemy = new Character("Slime", 100, 100);
+            Character player = new Character("Player", 100, 100,100);
+            Character enemy = new Character("Slime", 100, 100,-1);
 
             bool active = true;
             while (active)
@@ -60,11 +60,15 @@ namespace BattleConsole
             Console.WriteLine(character.Name);
             PrintStatLine($"Health", character.Health);
             PrintStatLine($"Stamina", character.Stamina);
+            PrintStatLine($"Mana", character.Mana);
         }
 
         public static void PrintStatLine(string statName, int statValue)
         {
-            Console.WriteLine($"{statName}: {GetStatusBar(statValue)} {statValue}");
+            if (statValue >= 0)
+            {
+                Console.WriteLine($"{statName}: {GetStatusBar(statValue)} {statValue}");
+            }
         }
 
     }
