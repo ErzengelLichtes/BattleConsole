@@ -7,10 +7,11 @@ namespace BattleConsole
         static void Main(string[] args)
         {
             //Variable definitions.
-
-
+            CharacterAction attack = new CharacterAction() { HealthChange = -5, StaminaChange=-8 };
+            CharacterAction guard = new CharacterAction() { HealthChangeMultiplier = 0.5f, StaminaChange = 12 };
             Character player = new Character("Player", 100, 100,100);
             Character enemy = new Character("Slime", 100, 100,-1);
+
 
             bool active = true;
             while (active)
@@ -21,19 +22,48 @@ namespace BattleConsole
                 PrintCharacterCard(player);
                 Console.WriteLine();
                 PrintCharacterCard(enemy);
+                Console.WriteLine();
+                Console.WriteLine("A: Attack    S: Guard");
 
                 var keyInfo = Console.ReadKey(true);
                 switch (keyInfo.Key)
                 {
+                    case ConsoleKey.A:
+                        player.Action = attack;
+                        break;
+                    case ConsoleKey.S:
+                        player.Action = guard;
+                        break;
                     case ConsoleKey.H:
-                        player.Health -= 1;
+                        if (player.Health > 0)
+                        {
+                            player.Health -= 1;
+                        }
                         break;
                     case ConsoleKey.J:
-                        player.Stamina -= 1;
+                        if (player.Stamina > 0)
+                        {
+                            player.Stamina -= 1;
+                        }
                         break;
                     case ConsoleKey.Escape:
                         active = false;
                         break;
+                }
+                Random r = new Random();
+                switch (r.Next(0, 2))
+                {
+                    case 0:
+                        enemy.Action = attack;
+                        break;
+                    case 1:
+                        enemy.Action = guard;
+                        break;
+                    default:
+                        throw new NotImplementedException();
+
+
+
                 }
             }
 

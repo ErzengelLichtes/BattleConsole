@@ -10,6 +10,7 @@ namespace BattleConsole
         public int Health;
         public int Stamina;
         public int Mana;
+        public CharacterAction Action;
         public Character()
         {
             Name = "error";
@@ -20,7 +21,7 @@ namespace BattleConsole
             Name = name;
             Health = health;
             Stamina = stamina;
-            Mana = mana;
+            Mana=mana;
 
         }
     }
