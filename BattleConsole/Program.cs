@@ -7,11 +7,11 @@ namespace BattleConsole
         static void Main(string[] args)
         {
             //Variable definitions.
-            int playerHealth = 100;
-            int playerStamina = 100;
+           
             int enemyHealth = 100;
             int enemyStamina = 100;
 
+            Character player = new Character("Player",100,100);
 
             bool active = true;
             while (active)
@@ -19,7 +19,7 @@ namespace BattleConsole
 
                 Console.Clear();
                 //Display character cards.
-                PrintCharacterCard("Player", playerHealth, playerStamina);
+                PrintCharacterCard(player);
                 Console.WriteLine();
                 PrintCharacterCard("Slime", enemyHealth, enemyStamina);
 
@@ -27,10 +27,10 @@ namespace BattleConsole
                 switch (keyInfo.Key)
                 {
                     case ConsoleKey.H:
-                        playerHealth -= 1;
+                        player.Health -= 1;
                         break;
                     case ConsoleKey.J:
-                        playerStamina -= 1;
+                        player.Stamina -= 1;
                         break;
                     case ConsoleKey.Escape:
                         active = false;
@@ -50,12 +50,16 @@ namespace BattleConsole
                 if (remainder <= 4) { toAdd = "."; }
                 else if (remainder <= 7) { toAdd = "-"; }
                 else if (remainder <= 9) { toAdd = "/"; }
-                statusBar = statusBar + toAdd;
+                statusBar += toAdd;
             }
             return statusBar;
 
         }
 
+        public static void PrintCharacterCard(Character character)
+        {
+            PrintCharacterCard(character.Name, character.Health, character.Stamina);
+        }
         public static void PrintCharacterCard(string characterName, int charHealth, int charStamina)
         {
             Console.WriteLine(characterName);
