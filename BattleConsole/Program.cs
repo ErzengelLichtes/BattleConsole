@@ -7,9 +7,9 @@ namespace BattleConsole
         static void Main(string[] args)
         {
             //Variable definitions.
-          
 
-            Character player = new Character("Player",100,100);
+
+            Character player = new Character("Player", 100, 100);
             Character enemy = new Character("Slime", 100, 100);
 
             bool active = true;
@@ -57,14 +57,11 @@ namespace BattleConsole
 
         public static void PrintCharacterCard(Character character)
         {
-            PrintCharacterCard(character.Name, character.Health, character.Stamina);
+            Console.WriteLine(character.Name);
+            PrintStatLine($"Health", character.Health);
+            PrintStatLine($"Stamina", character.Stamina);
         }
-        public static void PrintCharacterCard(string characterName, int charHealth, int charStamina)
-        {
-            Console.WriteLine(characterName);
-            PrintStatLine($"Health", charHealth);
-            PrintStatLine($"Stamina", charStamina);
-        }
+
         public static void PrintStatLine(string statName, int statValue)
         {
             Console.WriteLine($"{statName}: {GetStatusBar(statValue)} {statValue}");
