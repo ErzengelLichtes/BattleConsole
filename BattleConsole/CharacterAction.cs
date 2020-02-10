@@ -9,6 +9,6 @@ namespace BattleConsole
         public int TargetChangeHealth;
         public int SelfChangeStamina;
         public int ManaChange;
-        public float SelfNegMultiplierHealth;
+        public float SelfNegMultiplierHealth = 1.0f;
     }
 }
