@@ -63,6 +63,17 @@ namespace BattleConsole
 
                 CharacterActionsProcess(player, enemy);
                 CharacterActionsProcess(enemy, player);
+
+                if(player.Health == 0)
+                {
+                    Console.WriteLine("Game Over");
+                    active = false;
+                }
+                else if(enemy.Health == 0)
+                {
+                    Console.WriteLine("You Win!");
+                    active = false;
+                }
             }
 
 
