@@ -7,8 +7,8 @@ namespace BattleConsole
         static void Main(string[] args)
         {
             //Variable definitions.
-            CharacterAction attack = new CharacterAction() { HealthChange = -5, StaminaChange=-8 };
-            CharacterAction guard = new CharacterAction() { HealthChangeMultiplier = 0.5f, StaminaChange = 12 };
+            CharacterAction attack = new CharacterAction() { TargetChangeHealth = -5, SelfChangeStamina = -8 };
+            CharacterAction guard = new CharacterAction() { SelfNegMultiplierHealth = 0.5f, SelfChangeStamina = 12 };
             Character player = new Character("Player", 100, 100,100);
             Character enemy = new Character("Slime", 100, 100,-1);
 
@@ -20,9 +20,7 @@ namespace BattleConsole
                 Console.Clear();
                 //Display character cards.
                 PrintCharacterCard(player);
-                Console.WriteLine();
                 PrintCharacterCard(enemy);
-                Console.WriteLine();
                 Console.WriteLine("A: Attack    S: Guard");
 
                 var keyInfo = Console.ReadKey(true);
@@ -91,6 +89,7 @@ namespace BattleConsole
             PrintStatLine($"Health", character.Health);
             PrintStatLine($"Stamina", character.Stamina);
             PrintStatLine($"Mana", character.Mana);
+            Console.WriteLine();
         }
 
         public static void PrintStatLine(string statName, int statValue)

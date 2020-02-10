@@ -6,9 +6,9 @@ namespace BattleConsole
 {
     class CharacterAction
     {
-        public int HealthChange;
-        public int StaminaChange;
+        public int TargetChangeHealth;
+        public int SelfChangeStamina;
         public int ManaChange;
-        public float HealthChangeMultiplier;
+        public float SelfNegMultiplierHealth;
     }
 }
