@@ -70,11 +70,17 @@ namespace BattleConsole
 
         public static void CharacterActionsProcess(Character actor, Character target)
         {
+            var finalStamina = actor.Stamina + actor.Action.SelfChangeStamina;
+            if(finalStamina < 0)
+            {
+                actor.Stamina += 3;
+                return;
+            }
+
+            actor.Stamina = finalStamina;
+
             target.Health += (int)(actor.Action.TargetChangeHealth * target.Action.SelfNegMultiplierHealth);
             if(target.Health < 0) target.Health = 0;
-
-            actor.Stamina += actor.Action.SelfChangeStamina;
-            if (actor.Stamina < 0) actor.Stamina = 0;
         }
         public static string GetStatusBar(int statValue)
         {
