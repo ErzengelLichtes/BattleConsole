@@ -59,18 +59,22 @@ namespace BattleConsole
                         break;
                     default:
                         throw new NotImplementedException();
-
-
-
                 }
+
+                CharacterActionsProcess(player, enemy);
+                CharacterActionsProcess(enemy, player);
             }
 
 
         }
 
-        public static string CharacterActionsProcess()
+        public static void CharacterActionsProcess(Character actor, Character target)
         {
+            target.Health += (int)(actor.Action.TargetChangeHealth * target.Action.SelfNegMultiplierHealth);
+            if(target.Health < 0) target.Health = 0;
 
+            actor.Stamina += actor.Action.SelfChangeStamina;
+            if (actor.Stamina < 0) actor.Stamina = 0;
         }
         public static string GetStatusBar(int statValue)
         {
