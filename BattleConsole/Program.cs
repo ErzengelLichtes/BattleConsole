@@ -67,6 +67,11 @@ namespace BattleConsole
 
 
         }
+
+        public static string CharacterActionsProcess()
+        {
+
+        }
         public static string GetStatusBar(int statValue)
         {
             string statusBar = new string('|', statValue / 10);
