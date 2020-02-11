@@ -32,18 +32,6 @@ namespace BattleConsole
                     case ConsoleKey.S:
                         player.Action = guard;
                         break;
-                    case ConsoleKey.H:
-                        if (player.Health > 0)
-                        {
-                            player.Health -= 1;
-                        }
-                        break;
-                    case ConsoleKey.J:
-                        if (player.Stamina > 0)
-                        {
-                            player.Stamina -= 1;
-                        }
-                        break;
                     case ConsoleKey.Escape:
                         active = false;
                         break;
@@ -64,12 +52,12 @@ namespace BattleConsole
                 CharacterActionsProcess(player, enemy);
                 CharacterActionsProcess(enemy, player);
 
-                if(player.Health == 0)
+                if(player.Health.Value == 0)
                 {
                     Console.WriteLine("Game Over");
                     active = false;
                 }
-                else if(enemy.Health == 0)
+                else if(enemy.Health.Value == 0)
                 {
                     Console.WriteLine("You Win!");
                     active = false;
@@ -81,17 +69,12 @@ namespace BattleConsole
 
         public static void CharacterActionsProcess(Character actor, Character target)
         {
-            var finalStamina = actor.Stamina + actor.Action.SelfChangeStamina;
-            if(finalStamina < 0)
+            if(actor.Stamina.TryChange(actor.Stamina.Value + actor.Action.SelfChangeStamina) < 0)
             {
-                actor.Stamina += 3;
+                actor.Stamina.Change(3);
                 return;
             }
-
-            actor.Stamina = finalStamina;
-
-            target.Health += (int)(actor.Action.TargetChangeHealth * target.Action.SelfNegMultiplierHealth);
-            if(target.Health < 0) target.Health = 0;
+            target.Health.Change((int)(actor.Action.TargetChangeHealth * target.Action.SelfNegMultiplierHealth));
         }
         public static string GetStatusBar(int statValue)
         {
@@ -118,8 +101,9 @@ namespace BattleConsole
             Console.WriteLine();
         }
 
-        public static void PrintStatLine(string statName, int statValue)
+        public static void PrintStatLine(string statName, CharacterStat stat)
         {
+            int statValue = stat.Value;
             if (statValue >= 0)
             {
                 Console.WriteLine($"{statName}: {GetStatusBar(statValue)} {statValue}");

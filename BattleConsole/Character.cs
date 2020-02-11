@@ -7,9 +7,9 @@ namespace BattleConsole
     class Character
     {
         public string Name;
-        public int Health;
-        public int Stamina;
-        public int Mana;
+        public CharacterStat Health;
+        public CharacterStat Stamina;
+        public CharacterStat Mana;
         public CharacterAction Action;
         public Character()
         {
@@ -19,10 +19,9 @@ namespace BattleConsole
         public Character(string name, int health, int stamina, int mana)
         {
             Name = name;
-            Health = health;
-            Stamina = stamina;
-            Mana=mana;
-
+            Health = CharacterStat.Create(health);
+            Stamina = CharacterStat.Create(stamina);
+            Mana = CharacterStat.Create(mana);
         }
     }
 }
