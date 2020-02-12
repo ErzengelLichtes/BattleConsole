@@ -11,6 +11,7 @@ namespace BattleConsole
         public CharacterStat Stamina;
         public CharacterStat Mana;
         public CharacterAction Action;
+        public string ActionMessage;
         public Character()
         {
             Name = "error";

@@ -10,6 +10,7 @@ namespace BattleConsole
             //Variable definitions.
             CharacterAction attack = new CharacterAction()
                                      {
+                                         Name = "attacked",
                                          Self = new CharacterActionStats()
                                                 {
                                                     Stamina = new CharacterActionLine(){Change = -8}
@@ -21,6 +22,7 @@ namespace BattleConsole
                                      };
             CharacterAction guard = new CharacterAction()
                                      {
+                                         Name = "guarded against",
                                          Self = new CharacterActionStats()
                                                 {
                                                     Stamina = new CharacterActionLine() { Change = 12 },
@@ -40,6 +42,9 @@ namespace BattleConsole
                 PrintCharacterCard(player);
                 PrintCharacterCard(enemy);
                 Console.WriteLine("A: Attack    S: Guard");
+
+                Console.WriteLine(player.ActionMessage);
+                Console.WriteLine(enemy.ActionMessage);
 
                 var keyInfo = Console.ReadKey(true);
                 switch (keyInfo.Key)
@@ -72,11 +77,13 @@ namespace BattleConsole
 
                 if(player.Health.Value == 0)
                 {
+                    Console.Clear();
                     Console.WriteLine("Game Over");
                     active = false;
                 }
                 else if(enemy.Health.Value == 0)
                 {
+                    Console.Clear();
                     Console.WriteLine("You Win!");
                     active = false;
                 }
@@ -88,37 +95,68 @@ namespace BattleConsole
         public static void CharacterActionsProcess(Character actor, Character target)
         {
             //Change actor if possible
-            
+
+            actor.ActionMessage = $"{actor.Name} {actor.Action.Name} {target.Name}";
+
             //Actor's changes to itself
             var self = actor.Action.Self;
+            if(self == null) self = CharacterActionStats.Default;
             //Target's changes to actor
             var other = target.Action.Target;
+            if(other == null) other = CharacterActionStats.Default;
 
-            actor.Health.Change(ProcessActionLine(self.Health, target.Action.Target.Health));
-            if(actor.Stamina.TryChange(ProcessActionLine(self.Stamina, other.Stamina)) < 0)
+            if(actor.Health != null)
             {
-                actor.Stamina.Change(3);
-                return;
+                actor.Health.Change(ProcessActionLine(self.Health, other.Health));
             }
-            if (actor.Mana.TryChange(ProcessActionLine(self.Mana, other.Mana)) < 0)
+            if(actor.Stamina != null)
             {
-                return;
+                if(actor.Stamina.TryChange(ProcessActionLine(self.Stamina, other.Stamina)) < 0)
+                {
+                    actor.ActionMessage += ", but was too tired!";
+                    actor.Stamina.Change(3);
+                    return;
+                }
             }
 
+            if(actor.Mana != null)
+            {
+                if(actor.Mana.TryChange(ProcessActionLine(self.Mana, other.Mana)) < 0)
+                {
+                    actor.ActionMessage += ", but was tapped out!";
+                    return;
+                }
+            }
             //Change target
 
             //Actor's changes to target
             self = actor.Action.Target;
+            if (self == null) self = CharacterActionStats.Default;
             //Target's changes to itself
             other = target.Action.Self;
+            if (other == null) other = CharacterActionStats.Default;
 
-            target.Health .Change(ProcessActionLine(self.Health , other.Health ));
-            target.Stamina.Change(ProcessActionLine(self.Stamina, other.Stamina));
-            target.Mana   .Change(ProcessActionLine(self.Mana   , other.Mana   ));
+            if (target.Health != null)
+            {
+                target.Health.Change(ProcessActionLine(self.Health, other.Health));
+            }
+
+            if(target.Stamina != null)
+            {
+                target.Stamina.Change(ProcessActionLine(self.Stamina, other.Stamina));
+            }
+
+            if(target.Mana != null)
+            {
+                target.Mana.Change(ProcessActionLine(self.Mana, other.Mana));
+            }
         }
 
         static int ProcessActionLine(CharacterActionLine actorLine, CharacterActionLine targetLine)
         {
+            if(actorLine  == null) actorLine  = CharacterActionLine.Default;
+            if(targetLine == null) targetLine = CharacterActionLine.Default;
+
             int change = targetLine.Change;
             float multiplier;
             if(change < 0)
@@ -155,6 +193,7 @@ namespace BattleConsole
 
         public static void PrintStatLine(string statName, CharacterStat stat)
         {
+            if(stat == null) return;
             int statValue = stat.Value;
             if (statValue >= 0)
             {

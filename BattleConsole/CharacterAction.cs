@@ -6,6 +6,7 @@ namespace BattleConsole
 {
     class CharacterAction
     {
+        public string Name;
         public CharacterActionStats Self;
         public CharacterActionStats Target;
     }
