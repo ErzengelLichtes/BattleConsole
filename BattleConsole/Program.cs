@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace BattleConsole
 {
@@ -7,8 +8,25 @@ namespace BattleConsole
         static void Main(string[] args)
         {
             //Variable definitions.
-            CharacterAction attack = new CharacterAction() { TargetChangeHealth = -5, SelfChangeStamina = -8 };
-            CharacterAction guard = new CharacterAction() { SelfNegMultiplierHealth = 0.5f, SelfChangeStamina = 12 };
+            CharacterAction attack = new CharacterAction()
+                                     {
+                                         Self = new CharacterActionStats()
+                                                {
+                                                    Stamina = new CharacterActionLine(){Change = -8}
+                                                }, 
+                                         Target = new CharacterActionStats()
+                                                  {
+                                                      Health = new CharacterActionLine(){Change = -5}
+                                                  }
+                                     };
+            CharacterAction guard = new CharacterAction()
+                                     {
+                                         Self = new CharacterActionStats()
+                                                {
+                                                    Stamina = new CharacterActionLine() { Change = 12 },
+                                                    Health = new CharacterActionLine() { NegativeMultiplier = 0.5f }
+                                                },
+                                     };
             Character player = new Character("Player", 100, 100,100);
             Character enemy = new Character("Slime", 100, 100,-1);
 
@@ -69,13 +87,47 @@ namespace BattleConsole
 
         public static void CharacterActionsProcess(Character actor, Character target)
         {
-            if(actor.Stamina.TryChange(actor.Stamina.Value + actor.Action.SelfChangeStamina) < 0)
+            //Change actor if possible
+            
+            //Actor's changes to itself
+            var self = actor.Action.Self;
+            //Target's changes to actor
+            var other = target.Action.Target;
+
+            actor.Health.Change(ProcessActionLine(self.Health, target.Action.Target.Health));
+            if(actor.Stamina.TryChange(ProcessActionLine(self.Stamina, other.Stamina)) < 0)
             {
                 actor.Stamina.Change(3);
                 return;
             }
-            target.Health.Change((int)(actor.Action.TargetChangeHealth * target.Action.SelfNegMultiplierHealth));
+            if (actor.Mana.TryChange(ProcessActionLine(self.Mana, other.Mana)) < 0)
+            {
+                return;
+            }
+
+            //Change target
+
+            //Actor's changes to target
+            self = actor.Action.Target;
+            //Target's changes to itself
+            other = target.Action.Self;
+
+            target.Health .Change(ProcessActionLine(self.Health , other.Health ));
+            target.Stamina.Change(ProcessActionLine(self.Stamina, other.Stamina));
+            target.Mana   .Change(ProcessActionLine(self.Mana   , other.Mana   ));
         }
+
+        static int ProcessActionLine(CharacterActionLine actorLine, CharacterActionLine targetLine)
+        {
+            int change = targetLine.Change;
+            float multiplier;
+            if(change < 0)
+                multiplier = targetLine.NegativeMultiplier * actorLine.NegativeMultiplier;
+            else
+                multiplier = targetLine.PositiveMultiplier * actorLine.PositiveMultiplier;
+            return (int)(change * multiplier);
+        }
+        
         public static string GetStatusBar(int statValue)
         {
             string statusBar = new string('|', statValue / 10);
