@@ -10,7 +10,7 @@ namespace BattleConsole
             //Variable definitions.
             CharacterAction attack = new CharacterAction()
                                      {
-                                         Name = "attacked",
+                                         Description = "attacked",
                                          Self = new CharacterActionStats()
                                                 {
                                                     Stamina = new CharacterActionLine(){Change = -8}
@@ -22,7 +22,7 @@ namespace BattleConsole
                                      };
             CharacterAction guard = new CharacterAction()
                                      {
-                                         Name = "guarded against",
+                                         Description = "guarded against",
                                          Self = new CharacterActionStats()
                                                 {
                                                     Stamina = new CharacterActionLine() { Change = 12 },
@@ -96,7 +96,7 @@ namespace BattleConsole
         {
             //Change actor if possible
 
-            actor.ActionMessage = $"{actor.Name} {actor.Action.Name} {target.Name}";
+            actor.ActionMessage = $"{actor.Name} {actor.Action.Description} {target.Name}";
 
             //Actor's changes to itself
             var self = actor.Action.Self;
