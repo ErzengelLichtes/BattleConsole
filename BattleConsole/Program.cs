@@ -20,6 +20,18 @@ namespace BattleConsole
                                                       Health = new CharacterActionLine(){Change = -5}
                                                   }
                                      };
+            CharacterAction powerAttack = new CharacterAction()
+                                     {
+                                         Description = "power attacked",
+                                         Self = new CharacterActionStats()
+                                                {
+                                                    Stamina = new CharacterActionLine() { Change = -16 }
+                                                },
+                                         Target = new CharacterActionStats()
+                                                  {
+                                                      Health = new CharacterActionLine() { Change = -12 }
+                                                  }
+                                     };
             CharacterAction guard = new CharacterAction()
                                      {
                                          Description = "guarded against",
@@ -29,6 +41,15 @@ namespace BattleConsole
                                                     Health = new CharacterActionLine() { NegativeMultiplier = 0.5f }
                                                 },
                                      };
+            CharacterAction healingSpell = new CharacterAction()
+                                           {
+                                               Description = "used healing spell",
+                                               Self = new CharacterActionStats()
+                                                      {
+                                                          Health = new CharacterActionLine() { Change = 15},
+                                                          Mana = new CharacterActionLine() { Change = -25}
+                                                      },
+                                           };
             Character player = new Character("Player", 100, 100,100);
             Character enemy = new Character("Slime", 100, 100,-1);
 
@@ -41,7 +62,7 @@ namespace BattleConsole
                 //Display character cards.
                 PrintCharacterCard(player);
                 PrintCharacterCard(enemy);
-                Console.WriteLine("A: Attack    S: Guard");
+                Console.WriteLine("A: Attack    Q: Power Attack    S: Guard    H: Healing Spell");
 
                 Console.WriteLine(player.ActionMessage);
                 Console.WriteLine(enemy.ActionMessage);
@@ -55,18 +76,27 @@ namespace BattleConsole
                     case ConsoleKey.S:
                         player.Action = guard;
                         break;
+                    case ConsoleKey.Q:
+                        player.Action = powerAttack;
+                        break;
+                    case ConsoleKey.H:
+                        player.Action = healingSpell;
+                        break;
                     case ConsoleKey.Escape:
                         active = false;
                         break;
                 }
                 Random r = new Random();
-                switch (r.Next(0, 2))
+                switch (r.Next(0, 3))
                 {
                     case 0:
                         enemy.Action = attack;
                         break;
                     case 1:
                         enemy.Action = guard;
+                        break;
+                    case 2:
+                        enemy.Action = powerAttack;
                         break;
                     default:
                         throw new NotImplementedException();
